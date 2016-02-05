@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang='en'>
+	<head>
+		<title>blog search bookmarklet maker</title>
+		<meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+		<!--[if lt IE 9]><script type='text/javascript' src='assets/javascript/html5.js'></script><![endif]-->
+		<script type='text/javascript' src='assets/javascript/prettify.js'></script>
+		<script type='text/javascript' src='assets/javascript/jquery-1.7.1.min.js'></script>
+		
+		<script type="text/javascript">
+    
+    	// SETUP
+		
+		// default URLs for hosted tool on github
+		var blogname = 'CogDogBlog';
+		var blogurl = 'http://cogdogblog.com/';
+
+		
+
+		$(document).ready(function(){	
+			// set default value of form fields
+			$('#blogname').val(blogname);
+			$('#blogurl').val(blogurl);
+			$('#button_name').text(blogname);
+			$("#wp").prop("checked", true); // wordpress is default, right?
+			
+			// call function to set value of text area and bookmarklet link
+			makebookmarklet();				
+			
+			$('#blogname').change(function() {
+				 makebookmarklet();
+			});
+			
+			$('#blogurl').change(function() {
+				makebookmarklet();
+			});
+			
+			 $('input[type=radio][name=blogtype]').change(function() {
+				 makebookmarklet();
+			});
+						
+			// this function will update the bookmarklet based on the value of the image size and url field values
+			function makebookmarklet() {			
+				
+				// get the format of the search query depending in the kind of blog
+				// e.g. wordpres is /index.php?s= and blogger is /search?q=
+				qstring = $("input[name=blogtype]:checked").val();
+				
+				str =  "javascript:(function(){d=document;t=getSelection()+'';if(!t)%7Bvoid(t=prompt('Search%20" + encodeURIComponent($('#blogname').val()) + "%20for...',''))%7D;if(t)%20location.href='" + $('#blogurl').val() + qstring + "'+encodeURIComponent(t);})()";
+				
+				// insert into textarea
+				$('#marklet').val(str);
+				
+				$('#button_name').text($('#blogname').val());
+				
+				// make it the link for drag action form hyperlink
+				$("a#mlink").attr('href', str);
+			}
+
+		});
+    </script>
+
+		<link rel='stylesheet' type='text/css' href='assets/css/style.css' />
+		<link rel='stylesheet' type='text/css' href='assets/css/bootstrap.css' />
+		<link rel='stylesheet' type='text/css' href='assets/css/prettify.css' />
+		
+		<style type='text/css'>
+		label, input, textarea, radio {display:block;}
+		label {margin:1em, 0, 0; font-weight:900; }
+		input, textarea {width: 600px;}
+		input[type=radio] {display:inline; margin:1em 0.2em 1em 2em;}
+		#box {float:left; margin:1em 20px 0 0;}
+   		</style>
+
+	</head>
+	<body onload='prettyPrint()'>
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <a class="brand" href="#">blog search bookmarklet maker</a>
+        <div class="nav-collapse">
+          <ul class="nav">
+            <li class="active"><a href="#">Make It</a></li>
+            <li><a href="http://cog.dog/">by @cogdog</a></li>
+            <li><a href="http://cogdogblog.com/">cogdogblog</a></li>
+            <li><a href="http://cogdog.github.com/">gitting</a></li>
+            
+          </ul>
+        </div><!-- /.nav-collapse -->
+      </div>
+    </div><!-- /navbar-inner -->
+</div>
+		
+  <div class='row-fluid'>
+  		<div class='hero-unit' id="home">
+			<header>
+				<h1 class=''><img width="64" height="64" alt="wordpress" src="assets/images/wordpress-64x64.png"> <img width="64" height="64" alt="blogger" src="assets/images/blogger-64x64.png"> Blog Search Bookmarklet</h1>
+				<img width="300" alt="blog-box" src="assets/images/blog-box.jpg" id="box" /><p>Creates a bookmarklet tool to search a Wordpress or Blogger blog from anywhere you are on the web, and include optionally any selected text as search terms. Why waste time loading a search form?</p>
+				
+					
+			</header>
+			
+			
+
+			
+			<h2 id="maker" style="clear:left">Bookmarklet Generator</h2>
+			<p>Build a bookmarklet tool for a blog, yours or heck, mine.</p>
+		
+		<form>
+
+	  	<label for="blogname"></label>
+	  	<span class="label label-important">Name of Blog (for a nice looking prompt)</span>
+	  	<input type="text" id="blogname" />
+	  	
+	  	<label for="blogurl"></label>
+	  	<span class="label label-important">Web Address of Blog (including trailing "/")</span>
+	  	<input type="text" id="blogurl" />
+
+	  	<label for="blogtype"></label>
+	  	<span class="label label-important">Kind of Blog</span>
+	  	<input type="radio" name="blogtype" id="wp" value="index.php?s=">Wordpress
+	  	<input type="radio" name="blogtype" id="blogger" value="search?q=">Blogger
+	  	
+	  
+	  	
+	  	
+	  	<label for="marklet"></label>
+	  	
+	  	<span class="label label-important">bookmarklet code</span>
+	  	<textarea id="marklet" rows="5"></textarea>
+	  	Drag link for <a href="#" id="mlink" class='btn btn-info'>Search <span id="button_name"></span></a> to your browser bar or copy code above if you like to make your tools by hand.
+	  	</form>
+
+
+        
+	
+		</div>	
+<footer class="span12">
+<div class="alert">
+a barking dog production &bull; <a href="http://cog.dog/">cog.dog</a> &bull; <a href="http://cogdogblog.com">cogdogblog.com</a>
+</div>
+</footer>
+			</div>
+
+	</div>	
+	</body>
+</html>
