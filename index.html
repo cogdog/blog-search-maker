@@ -8,15 +8,12 @@
 		<script type='text/javascript' src='assets/javascript/jquery-1.7.1.min.js'></script>
 		
 		<script type="text/javascript">
-    
-    	// SETUP
 		
-		// default URLs for hosted tool on github
+		// defaults
 		var blogname = 'CogDogBlog';
 		var blogurl = 'http://cogdogblog.com/';
 
-		
-
+		// go go go
 		$(document).ready(function(){	
 			// set default value of form fields
 			$('#blogname').val(blogname);
@@ -24,14 +21,15 @@
 			$('#button_name').text(blogname);
 			$("#wp").prop("checked", true); // wordpress is default, right?
 			
-			// call function to set value of text area and bookmarklet link
+			// call function initially to set value of text area and bookmarklet link
 			makebookmarklet();				
 			
-			$('#blogname').change(function() {
+			// trigger updates if any other form values are changed
+			$('#blogname').keyup(function() {
 				 makebookmarklet();
 			});
 			
-			$('#blogurl').change(function() {
+			$('#blogurl').keyup(function() {
 				makebookmarklet();
 			});
 			
@@ -39,26 +37,29 @@
 				 makebookmarklet();
 			});
 						
-			// this function will update the bookmarklet based on the value of the image size and url field values
+			//called to pdate the bookmarklet
 			function makebookmarklet() {			
 				
 				// get the format of the search query depending in the kind of blog
 				// e.g. wordpres is /index.php?s= and blogger is /search?q=
 				qstring = $("input[name=blogtype]:checked").val();
 				
-				str =  "javascript:(function(){d=document;t=getSelection()+'';if(!t)%7Bvoid(t=prompt('Search%20" + encodeURIComponent($('#blogname').val()) + "%20for...',''))%7D;if(t)%20location.href='" + $('#blogurl').val() + qstring + "'+encodeURIComponent(t);})()";
+				// make the bookmarklet script
+				// modeled from https://en.wikipedia.org/wiki/Bookmarklet#Example
+				str =  "javascript:(function() {function se(d) {return d.selection ? d.selection.createRange().text : d.getSelection()} s = se(document); for (i=0; i<frames.length && !s; i++) s = se(frames[i].document); if (!s || s=='') s = prompt('Search%20" + encodeURIComponent($('#blogname').val()) + "%20for...'  ,''); location.href = '" + $('#blogurl').val() + qstring + "'+encodeURIComponent(s);})()";
 				
 				// insert into textarea
 				$('#marklet').val(str);
 				
+				// change the name on the bookmarklet button
 				$('#button_name').text($('#blogname').val());
 				
-				// make it the link for drag action form hyperlink
+				// update the link with code for drag action from hyperlink
 				$("a#mlink").attr('href', str);
 			}
 
 		});
-    </script>
+    	</script>
 
 		<link rel='stylesheet' type='text/css' href='assets/css/style.css' />
 		<link rel='stylesheet' type='text/css' href='assets/css/bootstrap.css' />
