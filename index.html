@@ -46,6 +46,27 @@
 				
 				// make the bookmarklet script
 				// modeled from https://en.wikipedia.org/wiki/Bookmarklet#Example
+				
+				/*
+				Here is the bookmarklet code in a bit more readable form
+				
+				str =  "javascript:(function() {
+					function se(d) {
+						return d.selection ? d.selection.createRange().text : d.getSelection()
+					} 
+					
+					s = se(document);
+				 	for (i=0; i<frames.length && !s; i++) s = se(frames[i].document); 
+				 	
+				 	if (!s || s=='') s = prompt('Search%20" + encodeURIComponent($('#blogname').val()) 
+				 		+ "%20for...'  ,''); location.href = '" 
+				 		+ $('#blogurl').val() + qstring 
+				 		+ "'+encodeURIComponent(s);
+				 })()";
+
+				*/
+				
+				// compact form of bookmarklet code
 				str =  "javascript:(function() {function se(d) {return d.selection ? d.selection.createRange().text : d.getSelection()} s = se(document); for (i=0; i<frames.length && !s; i++) s = se(frames[i].document); if (!s || s=='') s = prompt('Search%20" + encodeURIComponent($('#blogname').val()) + "%20for...'  ,''); location.href = '" + $('#blogurl').val() + qstring + "'+encodeURIComponent(s);})()";
 				
 				// insert into textarea
